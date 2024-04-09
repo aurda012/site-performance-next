@@ -7,7 +7,6 @@ interface Props {
   title: string;
   image: string;
   downloadNumber: number;
-  slug: string;
   downloadLink: string;
 }
 

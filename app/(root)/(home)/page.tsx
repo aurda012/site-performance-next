@@ -10,8 +10,7 @@ interface Props {
   searchParams: { [key: string]: string | undefined };
 }
 
-export const Home = async ({ searchParams }: Props) => {
-  console.log(searchParams);
+const Page = async ({ searchParams }: Props) => {
   const resources = await getResources({
     query: searchParams?.query || "",
     category: searchParams?.category || "",
@@ -27,20 +26,21 @@ export const Home = async ({ searchParams }: Props) => {
       <section className="nav-padding w-full">
         <div className="flex-center relative min-h-[274px] w-full flex-col rounded-xl bg-banner bg-cover bg-center text-center">
           <h1 className="sm:heading1 heading2 mb-6 text-center text-white">
-            Javascript Mastery Resources
+            JavaScript Mastery Resources
           </h1>
         </div>
         <SearchForm />
       </section>
+
       <Filters />
 
       {(searchParams?.query || searchParams?.category) && (
         <section className="flex-center mt-6 w-full flex-col sm:mt-20">
           <Header
-            type="Resources"
             query={searchParams?.query || ""}
             category={searchParams?.category || ""}
           />
+
           <div className="mt-12 flex w-full flex-wrap justify-center gap-16 sm:justify-start">
             {resources?.length > 0 ? (
               resources.map((resource: any) => (
@@ -50,7 +50,6 @@ export const Home = async ({ searchParams }: Props) => {
                   id={resource._id}
                   image={resource.image}
                   downloadNumber={resource.views}
-                  slug={resource.slug.current}
                   downloadLink={resource.downloadLink}
                 />
               ))
@@ -60,23 +59,21 @@ export const Home = async ({ searchParams }: Props) => {
           </div>
         </section>
       )}
-      {resourcesPlaylist.map((playlist: any) => (
+
+      {resourcesPlaylist.map((item: any) => (
         <section
-          key={playlist._id}
+          key={item._id}
           className="flex-center mt-6 w-full flex-col sm:mt-20"
         >
-          <h1 className="heading3 self-start text-white-800">
-            {playlist.title}
-          </h1>
+          <h1 className="heading3 self-start text-white-800">{item.title}</h1>
           <div className="mt-12 flex w-full flex-wrap justify-center gap-16 sm:justify-start">
-            {playlist.resources.map((resource: any) => (
+            {item.resources.map((resource: any) => (
               <ResourceCard
                 key={resource._id}
                 title={resource.title}
                 id={resource._id}
                 image={resource.image}
                 downloadNumber={resource.views}
-                slug={resource.slug.current}
                 downloadLink={resource.downloadLink}
               />
             ))}
@@ -86,4 +83,5 @@ export const Home = async ({ searchParams }: Props) => {
     </main>
   );
 };
-export default Home;
+
+export default Page;
